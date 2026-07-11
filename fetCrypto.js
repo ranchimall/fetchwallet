@@ -156,4 +156,75 @@
 
     return result;
   };
+
+  // --- Address Translation ---
+  fetCrypto.translateAddress = function (inputAddress) {
+    if (!inputAddress) return null;
+    inputAddress = inputAddress.trim();
+    let hash160Bytes = null;
+
+    try {
+      if (inputAddress.startsWith("fetch1")) {
+        const decoded = coinjs.bech32_decode(inputAddress);
+        if (decoded && decoded.hrp === "fetch") {
+          hash160Bytes = coinjs.bech32_convert(decoded.data, 5, 8, false);
+        }
+      } else if (inputAddress.toLowerCase().startsWith("bc1q")) {
+        const decoded = coinjs.bech32_decode(inputAddress);
+        if (decoded && decoded.hrp === "bc") {
+          const version = decoded.data.shift();
+          const converted = coinjs.bech32_convert(decoded.data, 5, 8, false);
+          // P2WPKH: version is 0, followed by 20 bytes hash
+          if (version === 0 && converted && converted.length === 20) {
+            hash160Bytes = converted;
+          }
+        }
+      } else {
+        // Assume Base58Check (FLO or legacy BTC)
+        const decoded = Bitcoin.Base58.decode(inputAddress);
+        // Base58Check: 1 byte version + 20 bytes hash160 + 4 bytes checksum
+        if (decoded && decoded.length === 25) {
+          hash160Bytes = decoded.slice(1, 21);
+        }
+      }
+    } catch (e) {
+      console.warn("Invalid address format:", e);
+      return null;
+    }
+
+    if (!hash160Bytes || hash160Bytes.length !== 20) {
+      return null;
+    }
+
+    const result = { BTC: {}, FLO: {}, FET: {} };
+
+    // Generate FET address
+    try {
+      const bech32Words = coinjs.bech32_convert(hash160Bytes, 8, 5, true);
+      result.FET.address = coinjs.bech32_encode("fetch", bech32Words);
+    } catch (e) {
+      result.FET.address = "Error";
+    }
+
+    // Generate FLO address (Base58, version 0x23 / 35)
+    try {
+      let bytes = [0x23].concat(hash160Bytes);
+      const hash = Crypto.SHA256(Crypto.SHA256(bytes, { asBytes: true }), { asBytes: true });
+      const checksum = hash.slice(0, 4);
+      result.FLO.address = bitjs.Base58.encode(bytes.concat(checksum));
+    } catch (e) {
+      result.FLO.address = "Error";
+    }
+
+    // Generate BTC address (SegWit P2WPKH, hrp 'bc', version 0)
+    try {
+      const bech32Words = coinjs.bech32_convert(hash160Bytes, 8, 5, true);
+      const versionAndData = [0].concat(bech32Words);
+      result.BTC.address = coinjs.bech32_encode("bc", versionAndData);
+    } catch (e) {
+      result.BTC.address = "Error";
+    }
+
+    return result;
+  };
 })("object" === typeof module ? module.exports : (window.fetCrypto = {}));

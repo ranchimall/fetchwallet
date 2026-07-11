@@ -43,6 +43,7 @@
 }
 
 :root {
+  --dynamic-logo-filter: none;
   --primary-color: #3b82f6;
   --primary-light: #60a5fa;
   --primary-dark: #2563eb;
@@ -74,6 +75,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
+    --dynamic-logo-filter: invert(1) brightness(2);
     --bg-color: #0f172a;
     --bg-light: #1e293b;
     --bg-dark: #334155;
@@ -91,6 +93,7 @@
 }
 
 [data-theme="dark"] {
+  --dynamic-logo-filter: invert(1) brightness(2);
   --bg-color: #0f172a;
   --bg-light: #1e293b;
   --bg-dark: #334155;
@@ -108,6 +111,7 @@
 }
 
 [data-theme="light"] {
+  --dynamic-logo-filter: none;
   --text-color: #1f2937;
   --text-light: #6b7280;
   --text-lighter: #94a3b8;
@@ -186,6 +190,16 @@ body {
   height: 2.5rem;
   fill: var(--primary-color);
   flex-shrink: 0;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.dynamic-logo {
+  filter: var(--dynamic-logo-filter);
 }
 
 .app-name {
@@ -416,7 +430,7 @@ body {
 }
 
 .wallet-generated-success .success-icon {
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color:rgba(255, 255, 255, 0.2);
   width: 3rem;
   height: 3rem;
   border-radius: 50%;

@@ -111,8 +111,14 @@
             </a>
           </li>
           <li>
-            <a href="#" class="nav-link" data-page="recover">
+            <a href="#" class="nav-link" data-page="translate">
               <i class="fas fa-sync-alt"></i>
+              Translate
+            </a>
+          </li>
+          <li>
+            <a href="#" class="nav-link" data-page="recover">
+              <i class="fas fa-key"></i>
               Recover
             </a>
           </li>
@@ -192,6 +198,35 @@
           <div class="card" style="text-align: center; padding: 3rem;">
             <h3><i class="fas fa-tools"></i> Coming Soon</h3>
             <p>Transactions functionality is currently under development.</p>
+          </div>
+        </div>
+
+        <!-- Translation Page -->
+        <div id="translatePage" class="page hidden">
+          <div class="page-header">
+            <h2><i class="fas fa-sync-alt"></i> Address Translation</h2>
+            <p>Convert addresses between blockchains (FET, FLO, BTC)</p>
+          </div>
+          <div class="card">
+            <div class="form-group">
+              <label><i class="fas fa-map-marker-alt"></i> Blockchain Address:</label>
+              <div class="input-with-actions">
+                <input id="addressToTranslate" class="form-input" placeholder="Enter FET / BTC / FLO address" />
+                <button type="button" class="input-action-btn clear-btn" onclick="clearInput('addressToTranslate')" title="Clear">
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+              <small class="form-text">Enter any blockchain address to see equivalent addresses on other chains</small>
+            </div>
+
+            <button class="btn btn-primary btn-block" onclick="translateDirectAddress()" id="translateBtn">
+              <span class="btn-text"><i class="fas fa-exchange-alt"></i> Translate Address</span>
+              <span class="btn-loading" style="display: none">
+                <i class="fas fa-spinner fa-spin"></i> Translating...
+              </span>
+            </button>
+
+            <div id="directTranslateResult" class="output"></div>
           </div>
         </div>
 
@@ -279,8 +314,12 @@
         <i class="fas fa-exchange-alt"></i>
         <span>Transactions</span>
       </button>
-      <button class="nav-btn" data-page="recover">
+      <button class="nav-btn" data-page="translate">
         <i class="fas fa-sync-alt"></i>
+        <span>Translate</span>
+      </button>
+      <button class="nav-btn" data-page="recover">
+        <i class="fas fa-key"></i>
         <span>Recover</span>
       </button>
     </nav>
@@ -468,7 +507,7 @@
           output.innerHTML = `
             <div class="wallet-generated-success">
               <div class="success-icon">
-                <i class="fas fa-check"></i>
+                <i class="fas fa-check-circle"></i>
               </div>
               <div class="success-message">
                 <h3>Addresses Generated Successfully!</h3>
@@ -478,7 +517,7 @@
             
             <div class="blockchain-section">
               <div class="blockchain-header">
-                <h4><i class="fas fa-snowflake"></i> Fetch.ai Blockchain</h4>
+                <h4><img src="https://raw.githubusercontent.com/cosmos/chain-registry/master/fetchhub/images/fet.svg" class="dynamic-logo" style="width:1.2em; height:1.2em; vertical-align:middle; margin-right:0.3em; margin-bottom: 0.1em;" alt="FET"> Fetch.ai Blockchain</h4>
                 <span class="blockchain-badge primary">Primary</span>
               </div>
               
@@ -509,7 +548,9 @@
             
             <div class="blockchain-section">
               <div class="blockchain-header">
-                <h4><i class="fas fa-coins"></i> FLO Blockchain</h4>
+                <h4><svg viewBox="0 0 256 256" style="width:1.2em; height:1.2em; vertical-align:middle; margin-right:0.3em; margin-bottom:0.1em; fill:currentColor;" fill-rule="evenodd" xmlns="http://www.w3.org/2000/svg">
+  <path d="M128,0 A128,128 0 1,0 256,128 A128,128 0 0,0 128,0 Z M128 38 h1 v1 h-1 Z M127 39 h3 v1 h-3 Z M127 40 h4 v1 h-4 Z M126 41 h5 v1 h-5 Z M125 42 h7 v1 h-7 Z M124 43 h9 v1 h-9 Z M124 44 h10 v1 h-10 Z M123 45 h11 v1 h-11 Z M122 46 h13 v1 h-13 Z M122 47 h14 v1 h-14 Z M121 48 h15 v1 h-15 Z M120 49 h17 v1 h-17 Z M120 50 h18 v1 h-18 Z M119 51 h19 v1 h-19 Z M119 52 h20 v1 h-20 Z M118 53 h22 v1 h-22 Z M117 54 h23 v1 h-23 Z M117 55 h24 v1 h-24 Z M116 56 h25 v1 h-25 Z M116 57 h12 v1 h-12 Z M130 57 h12 v1 h-12 Z M115 58 h12 v1 h-12 Z M131 58 h11 v1 h-11 Z M115 59 h11 v1 h-11 Z M131 59 h12 v1 h-12 Z M114 60 h12 v1 h-12 Z M132 60 h11 v1 h-11 Z M114 61 h11 v1 h-11 Z M133 61 h11 v1 h-11 Z M113 62 h11 v1 h-11 Z M133 62 h11 v1 h-11 Z M113 63 h10 v1 h-10 Z M134 63 h11 v1 h-11 Z M112 64 h11 v1 h-11 Z M135 64 h10 v1 h-10 Z M112 65 h10 v1 h-10 Z M135 65 h11 v1 h-11 Z M111 66 h10 v1 h-10 Z M136 66 h10 v1 h-10 Z M111 67 h10 v1 h-10 Z M137 67 h10 v1 h-10 Z M110 68 h10 v1 h-10 Z M137 68 h10 v1 h-10 Z M110 69 h10 v1 h-10 Z M138 69 h9 v1 h-9 Z M110 70 h9 v1 h-9 Z M138 70 h10 v1 h-10 Z M109 71 h10 v1 h-10 Z M139 71 h9 v1 h-9 Z M109 72 h9 v1 h-9 Z M139 72 h9 v1 h-9 Z M109 73 h9 v1 h-9 Z M140 73 h9 v1 h-9 Z M108 74 h9 v1 h-9 Z M140 74 h9 v1 h-9 Z M108 75 h9 v1 h-9 Z M141 75 h9 v1 h-9 Z M108 76 h8 v1 h-8 Z M141 76 h9 v1 h-9 Z M107 77 h9 v1 h-9 Z M142 77 h8 v1 h-8 Z M107 78 h8 v1 h-8 Z M142 78 h8 v1 h-8 Z M107 79 h8 v1 h-8 Z M142 79 h9 v1 h-9 Z M107 80 h8 v1 h-8 Z M143 80 h8 v1 h-8 Z M106 81 h8 v1 h-8 Z M143 81 h8 v1 h-8 Z M106 82 h8 v1 h-8 Z M144 82 h7 v1 h-7 Z M106 83 h8 v1 h-8 Z M144 83 h8 v1 h-8 Z M106 84 h7 v1 h-7 Z M144 84 h8 v1 h-8 Z M105 85 h8 v1 h-8 Z M144 85 h8 v1 h-8 Z M105 86 h8 v1 h-8 Z M145 86 h7 v1 h-7 Z M105 87 h8 v1 h-8 Z M145 87 h7 v1 h-7 Z M105 88 h7 v1 h-7 Z M145 88 h8 v1 h-8 Z M105 89 h7 v1 h-7 Z M145 89 h8 v1 h-8 Z M105 90 h7 v1 h-7 Z M146 90 h7 v1 h-7 Z M104 91 h8 v1 h-8 Z M146 91 h7 v1 h-7 Z M104 92 h8 v1 h-8 Z M146 92 h7 v1 h-7 Z M104 93 h7 v1 h-7 Z M146 93 h7 v1 h-7 Z M104 94 h7 v1 h-7 Z M146 94 h7 v1 h-7 Z M104 95 h7 v1 h-7 Z M146 95 h7 v1 h-7 Z M104 96 h7 v1 h-7 Z M146 96 h7 v1 h-7 Z M104 97 h7 v1 h-7 Z M147 97 h7 v1 h-7 Z M104 98 h7 v1 h-7 Z M147 98 h7 v1 h-7 Z M104 99 h7 v1 h-7 Z M147 99 h7 v1 h-7 Z M104 100 h7 v1 h-7 Z M147 100 h7 v1 h-7 Z M104 101 h7 v1 h-7 Z M147 101 h7 v1 h-7 Z M104 102 h7 v1 h-7 Z M147 102 h7 v1 h-7 Z M104 103 h7 v1 h-7 Z M147 103 h7 v1 h-7 Z M104 104 h7 v1 h-7 Z M147 104 h7 v1 h-7 Z M104 105 h7 v1 h-7 Z M147 105 h7 v1 h-7 Z M104 106 h7 v1 h-7 Z M146 106 h7 v1 h-7 Z M104 107 h7 v1 h-7 Z M146 107 h7 v1 h-7 Z M104 108 h7 v1 h-7 Z M146 108 h7 v1 h-7 Z M104 109 h7 v1 h-7 Z M146 109 h7 v1 h-7 Z M104 110 h8 v1 h-8 Z M146 110 h7 v1 h-7 Z M104 111 h8 v1 h-8 Z M146 111 h7 v1 h-7 Z M105 112 h7 v1 h-7 Z M146 112 h7 v1 h-7 Z M105 113 h7 v1 h-7 Z M145 113 h8 v1 h-8 Z M105 114 h7 v1 h-7 Z M145 114 h8 v1 h-8 Z M105 115 h7 v1 h-7 Z M145 115 h7 v1 h-7 Z M54 116 h8 v1 h-8 Z M105 116 h8 v1 h-8 Z M145 116 h7 v1 h-7 Z M196 116 h8 v1 h-8 Z M43 117 h28 v1 h-28 Z M105 117 h8 v1 h-8 Z M145 117 h7 v1 h-7 Z M186 117 h29 v1 h-29 Z M40 118 h36 v1 h-36 Z M106 118 h7 v1 h-7 Z M144 118 h8 v1 h-8 Z M181 118 h37 v1 h-37 Z M40 119 h40 v1 h-40 Z M106 119 h8 v1 h-8 Z M144 119 h8 v1 h-8 Z M178 119 h39 v1 h-39 Z M41 120 h42 v1 h-42 Z M106 120 h8 v1 h-8 Z M144 120 h7 v1 h-7 Z M175 120 h42 v1 h-42 Z M41 121 h45 v1 h-45 Z M106 121 h8 v1 h-8 Z M143 121 h8 v1 h-8 Z M172 121 h44 v1 h-44 Z M42 122 h46 v1 h-46 Z M107 122 h8 v1 h-8 Z M143 122 h8 v1 h-8 Z M169 122 h47 v1 h-47 Z M42 123 h48 v1 h-48 Z M107 123 h8 v1 h-8 Z M143 123 h8 v1 h-8 Z M167 123 h48 v1 h-48 Z M43 124 h49 v1 h-49 Z M107 124 h8 v1 h-8 Z M142 124 h8 v1 h-8 Z M165 124 h50 v1 h-50 Z M43 125 h51 v1 h-51 Z M107 125 h9 v1 h-9 Z M142 125 h8 v1 h-8 Z M163 125 h51 v1 h-51 Z M44 126 h15 v1 h-15 Z M71 126 h25 v1 h-25 Z M108 126 h8 v1 h-8 Z M141 126 h9 v1 h-9 Z M162 126 h25 v1 h-25 Z M198 126 h16 v1 h-16 Z M44 127 h11 v1 h-11 Z M75 127 h22 v1 h-22 Z M108 127 h9 v1 h-9 Z M141 127 h9 v1 h-9 Z M160 127 h22 v1 h-22 Z M202 127 h11 v1 h-11 Z M45 128 h10 v1 h-10 Z M79 128 h20 v1 h-20 Z M108 128 h9 v1 h-9 Z M141 128 h8 v1 h-8 Z M159 128 h20 v1 h-20 Z M202 128 h11 v1 h-11 Z M45 129 h10 v1 h-10 Z M82 129 h18 v1 h-18 Z M109 129 h8 v1 h-8 Z M140 129 h9 v1 h-9 Z M157 129 h19 v1 h-19 Z M202 129 h10 v1 h-10 Z M46 130 h10 v1 h-10 Z M84 130 h18 v1 h-18 Z M109 130 h9 v1 h-9 Z M140 130 h9 v1 h-9 Z M156 130 h17 v1 h-17 Z M202 130 h10 v1 h-10 Z M46 131 h10 v1 h-10 Z M86 131 h17 v1 h-17 Z M109 131 h9 v1 h-9 Z M139 131 h9 v1 h-9 Z M155 131 h16 v1 h-16 Z M202 131 h9 v1 h-9 Z M47 132 h9 v1 h-9 Z M88 132 h16 v1 h-16 Z M110 132 h9 v1 h-9 Z M139 132 h9 v1 h-9 Z M153 132 h16 v1 h-16 Z M201 132 h10 v1 h-10 Z M47 133 h9 v1 h-9 Z M90 133 h15 v1 h-15 Z M110 133 h9 v1 h-9 Z M138 133 h9 v1 h-9 Z M152 133 h15 v1 h-15 Z M201 133 h9 v1 h-9 Z M48 134 h9 v1 h-9 Z M92 134 h14 v1 h-14 Z M110 134 h10 v1 h-10 Z M137 134 h10 v1 h-10 Z M151 134 h15 v1 h-15 Z M201 134 h8 v1 h-8 Z M49 135 h8 v1 h-8 Z M94 135 h13 v1 h-13 Z M111 135 h10 v1 h-10 Z M137 135 h10 v1 h-10 Z M150 135 h14 v1 h-14 Z M200 135 h9 v1 h-9 Z M49 136 h9 v1 h-9 Z M95 136 h13 v1 h-13 Z M111 136 h10 v1 h-10 Z M136 136 h10 v1 h-10 Z M149 136 h13 v1 h-13 Z M200 136 h8 v1 h-8 Z M50 137 h8 v1 h-8 Z M97 137 h13 v1 h-13 Z M112 137 h10 v1 h-10 Z M136 137 h10 v1 h-10 Z M148 137 h13 v1 h-13 Z M199 137 h8 v1 h-8 Z M51 138 h7 v1 h-7 Z M98 138 h12 v1 h-12 Z M112 138 h10 v1 h-10 Z M135 138 h10 v1 h-10 Z M147 138 h12 v1 h-12 Z M199 138 h8 v1 h-8 Z M52 139 h7 v1 h-7 Z M100 139 h11 v1 h-11 Z M112 139 h11 v1 h-11 Z M134 139 h11 v1 h-11 Z M146 139 h12 v1 h-12 Z M199 139 h7 v1 h-7 Z M52 140 h7 v1 h-7 Z M101 140 h23 v1 h-23 Z M134 140 h22 v1 h-22 Z M198 140 h7 v1 h-7 Z M53 141 h7 v1 h-7 Z M102 141 h22 v1 h-22 Z M133 141 h22 v1 h-22 Z M197 141 h7 v1 h-7 Z M54 142 h7 v1 h-7 Z M104 142 h21 v1 h-21 Z M133 142 h21 v1 h-21 Z M197 142 h7 v1 h-7 Z M55 143 h6 v1 h-6 Z M105 143 h21 v1 h-21 Z M132 143 h21 v1 h-21 Z M196 143 h7 v1 h-7 Z M55 144 h7 v1 h-7 Z M106 144 h20 v1 h-20 Z M131 144 h20 v1 h-20 Z M196 144 h6 v1 h-6 Z M56 145 h7 v1 h-7 Z M107 145 h20 v1 h-20 Z M130 145 h20 v1 h-20 Z M195 145 h6 v1 h-6 Z M57 146 h6 v1 h-6 Z M109 146 h19 v1 h-19 Z M130 146 h19 v1 h-19 Z M194 146 h6 v1 h-6 Z M58 147 h6 v1 h-6 Z M110 147 h38 v1 h-38 Z M193 147 h6 v1 h-6 Z M59 148 h6 v1 h-6 Z M111 148 h36 v1 h-36 Z M193 148 h5 v1 h-5 Z M60 149 h6 v1 h-6 Z M112 149 h33 v1 h-33 Z M192 149 h5 v1 h-5 Z M61 150 h6 v1 h-6 Z M113 150 h31 v1 h-31 Z M191 150 h5 v1 h-5 Z M62 151 h6 v1 h-6 Z M114 151 h29 v1 h-29 Z M190 151 h5 v1 h-5 Z M63 152 h6 v1 h-6 Z M115 152 h27 v1 h-27 Z M189 152 h5 v1 h-5 Z M65 153 h5 v1 h-5 Z M116 153 h25 v1 h-25 Z M188 153 h5 v1 h-5 Z M66 154 h5 v1 h-5 Z M117 154 h23 v1 h-23 Z M187 154 h5 v1 h-5 Z M67 155 h5 v1 h-5 Z M118 155 h21 v1 h-21 Z M186 155 h4 v1 h-4 Z M69 156 h4 v1 h-4 Z M119 156 h19 v1 h-19 Z M185 156 h4 v1 h-4 Z M70 157 h4 v1 h-4 Z M120 157 h17 v1 h-17 Z M183 157 h4 v1 h-4 Z M72 158 h3 v1 h-3 Z M121 158 h15 v1 h-15 Z M182 158 h4 v1 h-4 Z M73 159 h4 v1 h-4 Z M122 159 h13 v1 h-13 Z M181 159 h3 v1 h-3 Z M75 160 h3 v1 h-3 Z M117 160 h24 v1 h-24 Z M179 160 h3 v1 h-3 Z M77 161 h3 v1 h-3 Z M110 161 h38 v1 h-38 Z M178 161 h2 v1 h-2 Z M79 162 h2 v1 h-2 Z M106 162 h46 v1 h-46 Z M176 162 h2 v1 h-2 Z M82 163 h1 v1 h-1 Z M103 163 h17 v1 h-17 Z M123 163 h11 v1 h-11 Z M137 163 h18 v1 h-18 Z M175 163 h1 v1 h-1 Z M100 164 h16 v1 h-16 Z M123 164 h12 v1 h-12 Z M141 164 h16 v1 h-16 Z M98 165 h15 v1 h-15 Z M122 165 h13 v1 h-13 Z M145 165 h14 v1 h-14 Z M96 166 h13 v1 h-13 Z M122 166 h14 v1 h-14 Z M148 166 h13 v1 h-13 Z M94 167 h13 v1 h-13 Z M121 167 h15 v1 h-15 Z M151 167 h12 v1 h-12 Z M93 168 h11 v1 h-11 Z M121 168 h7 v1 h-7 Z M130 168 h7 v1 h-7 Z M153 168 h12 v1 h-12 Z M91 169 h11 v1 h-11 Z M120 169 h7 v1 h-7 Z M130 169 h7 v1 h-7 Z M156 169 h10 v1 h-10 Z M90 170 h10 v1 h-10 Z M120 170 h6 v1 h-6 Z M131 170 h7 v1 h-7 Z M158 170 h9 v1 h-9 Z M89 171 h9 v1 h-9 Z M120 171 h6 v1 h-6 Z M132 171 h6 v1 h-6 Z M160 171 h9 v1 h-9 Z M88 172 h8 v1 h-8 Z M119 172 h6 v1 h-6 Z M132 172 h6 v1 h-6 Z M161 172 h9 v1 h-9 Z M86 173 h8 v1 h-8 Z M119 173 h6 v1 h-6 Z M133 173 h6 v1 h-6 Z M163 173 h8 v1 h-8 Z M85 174 h8 v1 h-8 Z M118 174 h6 v1 h-6 Z M133 174 h6 v1 h-6 Z M164 174 h8 v1 h-8 Z M85 175 h7 v1 h-7 Z M118 175 h6 v1 h-6 Z M134 175 h5 v1 h-5 Z M166 175 h7 v1 h-7 Z M84 176 h7 v1 h-7 Z M118 176 h5 v1 h-5 Z M134 176 h6 v1 h-6 Z M167 176 h7 v1 h-7 Z M83 177 h7 v1 h-7 Z M118 177 h5 v1 h-5 Z M135 177 h5 v1 h-5 Z M168 177 h7 v1 h-7 Z M82 178 h7 v1 h-7 Z M117 178 h5 v1 h-5 Z M135 178 h5 v1 h-5 Z M169 178 h7 v1 h-7 Z M81 179 h7 v1 h-7 Z M117 179 h5 v1 h-5 Z M135 179 h5 v1 h-5 Z M170 179 h6 v1 h-6 Z M80 180 h7 v1 h-7 Z M117 180 h5 v1 h-5 Z M136 180 h4 v1 h-4 Z M170 180 h7 v1 h-7 Z M80 181 h6 v1 h-6 Z M117 181 h5 v1 h-5 Z M136 181 h5 v1 h-5 Z M171 181 h7 v1 h-7 Z M79 182 h7 v1 h-7 Z M117 182 h4 v1 h-4 Z M136 182 h5 v1 h-5 Z M172 182 h6 v1 h-6 Z M79 183 h6 v1 h-6 Z M117 183 h4 v1 h-4 Z M136 183 h5 v1 h-5 Z M172 183 h7 v1 h-7 Z M78 184 h7 v1 h-7 Z M109 184 h1 v1 h-1 Z M117 184 h4 v1 h-4 Z M136 184 h5 v1 h-5 Z M148 184 h1 v1 h-1 Z M172 184 h8 v1 h-8 Z M77 185 h10 v1 h-10 Z M106 185 h2 v1 h-2 Z M116 185 h5 v1 h-5 Z M137 185 h4 v1 h-4 Z M149 185 h3 v1 h-3 Z M171 185 h9 v1 h-9 Z M77 186 h13 v1 h-13 Z M102 186 h4 v1 h-4 Z M116 186 h5 v1 h-5 Z M137 186 h4 v1 h-4 Z M151 186 h4 v1 h-4 Z M168 186 h13 v1 h-13 Z M76 187 h28 v1 h-28 Z M116 187 h5 v1 h-5 Z M137 187 h4 v1 h-4 Z M153 187 h28 v1 h-28 Z M76 188 h25 v1 h-25 Z M116 188 h5 v1 h-5 Z M137 188 h4 v1 h-4 Z M156 188 h26 v1 h-26 Z M78 189 h20 v1 h-20 Z M116 189 h5 v1 h-5 Z M137 189 h4 v1 h-4 Z M160 189 h20 v1 h-20 Z M86 190 h3 v1 h-3 Z M117 190 h4 v1 h-4 Z M137 190 h4 v1 h-4 Z M169 190 h3 v1 h-3 Z M117 191 h4 v1 h-4 Z M136 191 h5 v1 h-5 Z M117 192 h4 v1 h-4 Z M136 192 h5 v1 h-5 Z M117 193 h4 v1 h-4 Z M136 193 h5 v1 h-5 Z M117 194 h5 v1 h-5 Z M136 194 h5 v1 h-5 Z M117 195 h5 v1 h-5 Z M136 195 h4 v1 h-4 Z M117 196 h5 v1 h-5 Z M135 196 h5 v1 h-5 Z M118 197 h5 v1 h-5 Z M135 197 h5 v1 h-5 Z M118 198 h5 v1 h-5 Z M134 198 h6 v1 h-6 Z M118 199 h5 v1 h-5 Z M134 199 h5 v1 h-5 Z M118 200 h6 v1 h-6 Z M134 200 h5 v1 h-5 Z M119 201 h6 v1 h-6 Z M133 201 h6 v1 h-6 Z M119 202 h6 v1 h-6 Z M132 202 h6 v1 h-6 Z M119 203 h7 v1 h-7 Z M132 203 h6 v1 h-6 Z M120 204 h6 v1 h-6 Z M131 204 h7 v1 h-7 Z M120 205 h7 v1 h-7 Z M131 205 h6 v1 h-6 Z M121 206 h7 v1 h-7 Z M130 206 h7 v1 h-7 Z M121 207 h15 v1 h-15 Z M122 208 h14 v1 h-14 Z M122 209 h13 v1 h-13 Z M123 210 h12 v1 h-12 Z M123 211 h11 v1 h-11 Z M124 212 h10 v1 h-10 Z M124 213 h9 v1 h-9 Z M125 214 h7 v1 h-7 Z M126 215 h6 v1 h-6 Z M126 216 h5 v1 h-5 Z M127 217 h3 v1 h-3 Z M128 218 h2 v1 h-2 Z " />
+</svg> FLO Blockchain</h4>
                 <span class="blockchain-badge secondary">Secondary</span>
               </div>
               
@@ -590,6 +631,106 @@
         }
       }
 
+      // Address Translation functionality
+      function translateDirectAddress() {
+        const addressInput = document.getElementById("addressToTranslate").value;
+        const resultDiv = document.getElementById("directTranslateResult");
+        const btn = document.getElementById("translateBtn");
+        const btnText = btn.querySelector(".btn-text");
+        const btnLoading = btn.querySelector(".btn-loading");
+
+        if (!addressInput) {
+          showNotification("Please enter a blockchain address", "warning");
+          return;
+        }
+
+        // Show loading state
+        btn.disabled = true;
+        btnText.style.display = "none";
+        btnLoading.style.display = "inline-block";
+        resultDiv.innerHTML = "";
+
+        // Process translation
+        setTimeout(() => {
+          const result = fetCrypto.translateAddress(addressInput);
+
+          if (!result) {
+            showNotification("Invalid address format", "error");
+          } else {
+            const html = `
+              <div class="result-card">
+                <div class="wallet-generated-success">
+                  <div class="success-icon">
+                    <i class="fas fa-check-circle"></i>
+                  </div>
+                  <div class="success-message">
+                    <h3>Address Translated Successfully!</h3>
+                    <p>Here are the equivalent addresses on supported blockchains.</p>
+                  </div>
+                </div>
+                
+                <div class="blockchain-section">
+                  <div class="blockchain-header">
+                    <h4><img src="https://raw.githubusercontent.com/cosmos/chain-registry/master/fetchhub/images/fet.svg" class="dynamic-logo" style="width:1.2em; height:1.2em; vertical-align:middle; margin-right:0.3em; margin-bottom: 0.1em;" alt="FET"> Fetch.ai Blockchain</h4>
+                    <span class="blockchain-badge primary">Primary</span>
+                  </div>
+                  <div class="detail-row">
+                    <label><i class="fas fa-map-marker-alt"></i> Address</label>
+                    <div class="value-container">
+                      <code>${result.FET.address}</code>
+                      <button class="btn-icon" onclick="copyToClipboard('${result.FET.address}')">
+                        <i class="fas fa-copy"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="blockchain-section">
+                  <div class="blockchain-header">
+                    <h4><svg viewBox="0 0 256 256" style="width:1.2em; height:1.2em; vertical-align:middle; margin-right:0.3em; margin-bottom:0.1em; fill:currentColor;" fill-rule="evenodd" xmlns="http://www.w3.org/2000/svg">
+  <path d="M128,0 A128,128 0 1,0 256,128 A128,128 0 0,0 128,0 Z M128 38 h1 v1 h-1 Z M127 39 h3 v1 h-3 Z M127 40 h4 v1 h-4 Z M126 41 h5 v1 h-5 Z M125 42 h7 v1 h-7 Z M124 43 h9 v1 h-9 Z M124 44 h10 v1 h-10 Z M123 45 h11 v1 h-11 Z M122 46 h13 v1 h-13 Z M122 47 h14 v1 h-14 Z M121 48 h15 v1 h-15 Z M120 49 h17 v1 h-17 Z M120 50 h18 v1 h-18 Z M119 51 h19 v1 h-19 Z M119 52 h20 v1 h-20 Z M118 53 h22 v1 h-22 Z M117 54 h23 v1 h-23 Z M117 55 h24 v1 h-24 Z M116 56 h25 v1 h-25 Z M116 57 h12 v1 h-12 Z M130 57 h12 v1 h-12 Z M115 58 h12 v1 h-12 Z M131 58 h11 v1 h-11 Z M115 59 h11 v1 h-11 Z M131 59 h12 v1 h-12 Z M114 60 h12 v1 h-12 Z M132 60 h11 v1 h-11 Z M114 61 h11 v1 h-11 Z M133 61 h11 v1 h-11 Z M113 62 h11 v1 h-11 Z M133 62 h11 v1 h-11 Z M113 63 h10 v1 h-10 Z M134 63 h11 v1 h-11 Z M112 64 h11 v1 h-11 Z M135 64 h10 v1 h-10 Z M112 65 h10 v1 h-10 Z M135 65 h11 v1 h-11 Z M111 66 h10 v1 h-10 Z M136 66 h10 v1 h-10 Z M111 67 h10 v1 h-10 Z M137 67 h10 v1 h-10 Z M110 68 h10 v1 h-10 Z M137 68 h10 v1 h-10 Z M110 69 h10 v1 h-10 Z M138 69 h9 v1 h-9 Z M110 70 h9 v1 h-9 Z M138 70 h10 v1 h-10 Z M109 71 h10 v1 h-10 Z M139 71 h9 v1 h-9 Z M109 72 h9 v1 h-9 Z M139 72 h9 v1 h-9 Z M109 73 h9 v1 h-9 Z M140 73 h9 v1 h-9 Z M108 74 h9 v1 h-9 Z M140 74 h9 v1 h-9 Z M108 75 h9 v1 h-9 Z M141 75 h9 v1 h-9 Z M108 76 h8 v1 h-8 Z M141 76 h9 v1 h-9 Z M107 77 h9 v1 h-9 Z M142 77 h8 v1 h-8 Z M107 78 h8 v1 h-8 Z M142 78 h8 v1 h-8 Z M107 79 h8 v1 h-8 Z M142 79 h9 v1 h-9 Z M107 80 h8 v1 h-8 Z M143 80 h8 v1 h-8 Z M106 81 h8 v1 h-8 Z M143 81 h8 v1 h-8 Z M106 82 h8 v1 h-8 Z M144 82 h7 v1 h-7 Z M106 83 h8 v1 h-8 Z M144 83 h8 v1 h-8 Z M106 84 h7 v1 h-7 Z M144 84 h8 v1 h-8 Z M105 85 h8 v1 h-8 Z M144 85 h8 v1 h-8 Z M105 86 h8 v1 h-8 Z M145 86 h7 v1 h-7 Z M105 87 h8 v1 h-8 Z M145 87 h7 v1 h-7 Z M105 88 h7 v1 h-7 Z M145 88 h8 v1 h-8 Z M105 89 h7 v1 h-7 Z M145 89 h8 v1 h-8 Z M105 90 h7 v1 h-7 Z M146 90 h7 v1 h-7 Z M104 91 h8 v1 h-8 Z M146 91 h7 v1 h-7 Z M104 92 h8 v1 h-8 Z M146 92 h7 v1 h-7 Z M104 93 h7 v1 h-7 Z M146 93 h7 v1 h-7 Z M104 94 h7 v1 h-7 Z M146 94 h7 v1 h-7 Z M104 95 h7 v1 h-7 Z M146 95 h7 v1 h-7 Z M104 96 h7 v1 h-7 Z M146 96 h7 v1 h-7 Z M104 97 h7 v1 h-7 Z M147 97 h7 v1 h-7 Z M104 98 h7 v1 h-7 Z M147 98 h7 v1 h-7 Z M104 99 h7 v1 h-7 Z M147 99 h7 v1 h-7 Z M104 100 h7 v1 h-7 Z M147 100 h7 v1 h-7 Z M104 101 h7 v1 h-7 Z M147 101 h7 v1 h-7 Z M104 102 h7 v1 h-7 Z M147 102 h7 v1 h-7 Z M104 103 h7 v1 h-7 Z M147 103 h7 v1 h-7 Z M104 104 h7 v1 h-7 Z M147 104 h7 v1 h-7 Z M104 105 h7 v1 h-7 Z M147 105 h7 v1 h-7 Z M104 106 h7 v1 h-7 Z M146 106 h7 v1 h-7 Z M104 107 h7 v1 h-7 Z M146 107 h7 v1 h-7 Z M104 108 h7 v1 h-7 Z M146 108 h7 v1 h-7 Z M104 109 h7 v1 h-7 Z M146 109 h7 v1 h-7 Z M104 110 h8 v1 h-8 Z M146 110 h7 v1 h-7 Z M104 111 h8 v1 h-8 Z M146 111 h7 v1 h-7 Z M105 112 h7 v1 h-7 Z M146 112 h7 v1 h-7 Z M105 113 h7 v1 h-7 Z M145 113 h8 v1 h-8 Z M105 114 h7 v1 h-7 Z M145 114 h8 v1 h-8 Z M105 115 h7 v1 h-7 Z M145 115 h7 v1 h-7 Z M54 116 h8 v1 h-8 Z M105 116 h8 v1 h-8 Z M145 116 h7 v1 h-7 Z M196 116 h8 v1 h-8 Z M43 117 h28 v1 h-28 Z M105 117 h8 v1 h-8 Z M145 117 h7 v1 h-7 Z M186 117 h29 v1 h-29 Z M40 118 h36 v1 h-36 Z M106 118 h7 v1 h-7 Z M144 118 h8 v1 h-8 Z M181 118 h37 v1 h-37 Z M40 119 h40 v1 h-40 Z M106 119 h8 v1 h-8 Z M144 119 h8 v1 h-8 Z M178 119 h39 v1 h-39 Z M41 120 h42 v1 h-42 Z M106 120 h8 v1 h-8 Z M144 120 h7 v1 h-7 Z M175 120 h42 v1 h-42 Z M41 121 h45 v1 h-45 Z M106 121 h8 v1 h-8 Z M143 121 h8 v1 h-8 Z M172 121 h44 v1 h-44 Z M42 122 h46 v1 h-46 Z M107 122 h8 v1 h-8 Z M143 122 h8 v1 h-8 Z M169 122 h47 v1 h-47 Z M42 123 h48 v1 h-48 Z M107 123 h8 v1 h-8 Z M143 123 h8 v1 h-8 Z M167 123 h48 v1 h-48 Z M43 124 h49 v1 h-49 Z M107 124 h8 v1 h-8 Z M142 124 h8 v1 h-8 Z M165 124 h50 v1 h-50 Z M43 125 h51 v1 h-51 Z M107 125 h9 v1 h-9 Z M142 125 h8 v1 h-8 Z M163 125 h51 v1 h-51 Z M44 126 h15 v1 h-15 Z M71 126 h25 v1 h-25 Z M108 126 h8 v1 h-8 Z M141 126 h9 v1 h-9 Z M162 126 h25 v1 h-25 Z M198 126 h16 v1 h-16 Z M44 127 h11 v1 h-11 Z M75 127 h22 v1 h-22 Z M108 127 h9 v1 h-9 Z M141 127 h9 v1 h-9 Z M160 127 h22 v1 h-22 Z M202 127 h11 v1 h-11 Z M45 128 h10 v1 h-10 Z M79 128 h20 v1 h-20 Z M108 128 h9 v1 h-9 Z M141 128 h8 v1 h-8 Z M159 128 h20 v1 h-20 Z M202 128 h11 v1 h-11 Z M45 129 h10 v1 h-10 Z M82 129 h18 v1 h-18 Z M109 129 h8 v1 h-8 Z M140 129 h9 v1 h-9 Z M157 129 h19 v1 h-19 Z M202 129 h10 v1 h-10 Z M46 130 h10 v1 h-10 Z M84 130 h18 v1 h-18 Z M109 130 h9 v1 h-9 Z M140 130 h9 v1 h-9 Z M156 130 h17 v1 h-17 Z M202 130 h10 v1 h-10 Z M46 131 h10 v1 h-10 Z M86 131 h17 v1 h-17 Z M109 131 h9 v1 h-9 Z M139 131 h9 v1 h-9 Z M155 131 h16 v1 h-16 Z M202 131 h9 v1 h-9 Z M47 132 h9 v1 h-9 Z M88 132 h16 v1 h-16 Z M110 132 h9 v1 h-9 Z M139 132 h9 v1 h-9 Z M153 132 h16 v1 h-16 Z M201 132 h10 v1 h-10 Z M47 133 h9 v1 h-9 Z M90 133 h15 v1 h-15 Z M110 133 h9 v1 h-9 Z M138 133 h9 v1 h-9 Z M152 133 h15 v1 h-15 Z M201 133 h9 v1 h-9 Z M48 134 h9 v1 h-9 Z M92 134 h14 v1 h-14 Z M110 134 h10 v1 h-10 Z M137 134 h10 v1 h-10 Z M151 134 h15 v1 h-15 Z M201 134 h8 v1 h-8 Z M49 135 h8 v1 h-8 Z M94 135 h13 v1 h-13 Z M111 135 h10 v1 h-10 Z M137 135 h10 v1 h-10 Z M150 135 h14 v1 h-14 Z M200 135 h9 v1 h-9 Z M49 136 h9 v1 h-9 Z M95 136 h13 v1 h-13 Z M111 136 h10 v1 h-10 Z M136 136 h10 v1 h-10 Z M149 136 h13 v1 h-13 Z M200 136 h8 v1 h-8 Z M50 137 h8 v1 h-8 Z M97 137 h13 v1 h-13 Z M112 137 h10 v1 h-10 Z M136 137 h10 v1 h-10 Z M148 137 h13 v1 h-13 Z M199 137 h8 v1 h-8 Z M51 138 h7 v1 h-7 Z M98 138 h12 v1 h-12 Z M112 138 h10 v1 h-10 Z M135 138 h10 v1 h-10 Z M147 138 h12 v1 h-12 Z M199 138 h8 v1 h-8 Z M52 139 h7 v1 h-7 Z M100 139 h11 v1 h-11 Z M112 139 h11 v1 h-11 Z M134 139 h11 v1 h-11 Z M146 139 h12 v1 h-12 Z M199 139 h7 v1 h-7 Z M52 140 h7 v1 h-7 Z M101 140 h23 v1 h-23 Z M134 140 h22 v1 h-22 Z M198 140 h7 v1 h-7 Z M53 141 h7 v1 h-7 Z M102 141 h22 v1 h-22 Z M133 141 h22 v1 h-22 Z M197 141 h7 v1 h-7 Z M54 142 h7 v1 h-7 Z M104 142 h21 v1 h-21 Z M133 142 h21 v1 h-21 Z M197 142 h7 v1 h-7 Z M55 143 h6 v1 h-6 Z M105 143 h21 v1 h-21 Z M132 143 h21 v1 h-21 Z M196 143 h7 v1 h-7 Z M55 144 h7 v1 h-7 Z M106 144 h20 v1 h-20 Z M131 144 h20 v1 h-20 Z M196 144 h6 v1 h-6 Z M56 145 h7 v1 h-7 Z M107 145 h20 v1 h-20 Z M130 145 h20 v1 h-20 Z M195 145 h6 v1 h-6 Z M57 146 h6 v1 h-6 Z M109 146 h19 v1 h-19 Z M130 146 h19 v1 h-19 Z M194 146 h6 v1 h-6 Z M58 147 h6 v1 h-6 Z M110 147 h38 v1 h-38 Z M193 147 h6 v1 h-6 Z M59 148 h6 v1 h-6 Z M111 148 h36 v1 h-36 Z M193 148 h5 v1 h-5 Z M60 149 h6 v1 h-6 Z M112 149 h33 v1 h-33 Z M192 149 h5 v1 h-5 Z M61 150 h6 v1 h-6 Z M113 150 h31 v1 h-31 Z M191 150 h5 v1 h-5 Z M62 151 h6 v1 h-6 Z M114 151 h29 v1 h-29 Z M190 151 h5 v1 h-5 Z M63 152 h6 v1 h-6 Z M115 152 h27 v1 h-27 Z M189 152 h5 v1 h-5 Z M65 153 h5 v1 h-5 Z M116 153 h25 v1 h-25 Z M188 153 h5 v1 h-5 Z M66 154 h5 v1 h-5 Z M117 154 h23 v1 h-23 Z M187 154 h5 v1 h-5 Z M67 155 h5 v1 h-5 Z M118 155 h21 v1 h-21 Z M186 155 h4 v1 h-4 Z M69 156 h4 v1 h-4 Z M119 156 h19 v1 h-19 Z M185 156 h4 v1 h-4 Z M70 157 h4 v1 h-4 Z M120 157 h17 v1 h-17 Z M183 157 h4 v1 h-4 Z M72 158 h3 v1 h-3 Z M121 158 h15 v1 h-15 Z M182 158 h4 v1 h-4 Z M73 159 h4 v1 h-4 Z M122 159 h13 v1 h-13 Z M181 159 h3 v1 h-3 Z M75 160 h3 v1 h-3 Z M117 160 h24 v1 h-24 Z M179 160 h3 v1 h-3 Z M77 161 h3 v1 h-3 Z M110 161 h38 v1 h-38 Z M178 161 h2 v1 h-2 Z M79 162 h2 v1 h-2 Z M106 162 h46 v1 h-46 Z M176 162 h2 v1 h-2 Z M82 163 h1 v1 h-1 Z M103 163 h17 v1 h-17 Z M123 163 h11 v1 h-11 Z M137 163 h18 v1 h-18 Z M175 163 h1 v1 h-1 Z M100 164 h16 v1 h-16 Z M123 164 h12 v1 h-12 Z M141 164 h16 v1 h-16 Z M98 165 h15 v1 h-15 Z M122 165 h13 v1 h-13 Z M145 165 h14 v1 h-14 Z M96 166 h13 v1 h-13 Z M122 166 h14 v1 h-14 Z M148 166 h13 v1 h-13 Z M94 167 h13 v1 h-13 Z M121 167 h15 v1 h-15 Z M151 167 h12 v1 h-12 Z M93 168 h11 v1 h-11 Z M121 168 h7 v1 h-7 Z M130 168 h7 v1 h-7 Z M153 168 h12 v1 h-12 Z M91 169 h11 v1 h-11 Z M120 169 h7 v1 h-7 Z M130 169 h7 v1 h-7 Z M156 169 h10 v1 h-10 Z M90 170 h10 v1 h-10 Z M120 170 h6 v1 h-6 Z M131 170 h7 v1 h-7 Z M158 170 h9 v1 h-9 Z M89 171 h9 v1 h-9 Z M120 171 h6 v1 h-6 Z M132 171 h6 v1 h-6 Z M160 171 h9 v1 h-9 Z M88 172 h8 v1 h-8 Z M119 172 h6 v1 h-6 Z M132 172 h6 v1 h-6 Z M161 172 h9 v1 h-9 Z M86 173 h8 v1 h-8 Z M119 173 h6 v1 h-6 Z M133 173 h6 v1 h-6 Z M163 173 h8 v1 h-8 Z M85 174 h8 v1 h-8 Z M118 174 h6 v1 h-6 Z M133 174 h6 v1 h-6 Z M164 174 h8 v1 h-8 Z M85 175 h7 v1 h-7 Z M118 175 h6 v1 h-6 Z M134 175 h5 v1 h-5 Z M166 175 h7 v1 h-7 Z M84 176 h7 v1 h-7 Z M118 176 h5 v1 h-5 Z M134 176 h6 v1 h-6 Z M167 176 h7 v1 h-7 Z M83 177 h7 v1 h-7 Z M118 177 h5 v1 h-5 Z M135 177 h5 v1 h-5 Z M168 177 h7 v1 h-7 Z M82 178 h7 v1 h-7 Z M117 178 h5 v1 h-5 Z M135 178 h5 v1 h-5 Z M169 178 h7 v1 h-7 Z M81 179 h7 v1 h-7 Z M117 179 h5 v1 h-5 Z M135 179 h5 v1 h-5 Z M170 179 h6 v1 h-6 Z M80 180 h7 v1 h-7 Z M117 180 h5 v1 h-5 Z M136 180 h4 v1 h-4 Z M170 180 h7 v1 h-7 Z M80 181 h6 v1 h-6 Z M117 181 h5 v1 h-5 Z M136 181 h5 v1 h-5 Z M171 181 h7 v1 h-7 Z M79 182 h7 v1 h-7 Z M117 182 h4 v1 h-4 Z M136 182 h5 v1 h-5 Z M172 182 h6 v1 h-6 Z M79 183 h6 v1 h-6 Z M117 183 h4 v1 h-4 Z M136 183 h5 v1 h-5 Z M172 183 h7 v1 h-7 Z M78 184 h7 v1 h-7 Z M109 184 h1 v1 h-1 Z M117 184 h4 v1 h-4 Z M136 184 h5 v1 h-5 Z M148 184 h1 v1 h-1 Z M172 184 h8 v1 h-8 Z M77 185 h10 v1 h-10 Z M106 185 h2 v1 h-2 Z M116 185 h5 v1 h-5 Z M137 185 h4 v1 h-4 Z M149 185 h3 v1 h-3 Z M171 185 h9 v1 h-9 Z M77 186 h13 v1 h-13 Z M102 186 h4 v1 h-4 Z M116 186 h5 v1 h-5 Z M137 186 h4 v1 h-4 Z M151 186 h4 v1 h-4 Z M168 186 h13 v1 h-13 Z M76 187 h28 v1 h-28 Z M116 187 h5 v1 h-5 Z M137 187 h4 v1 h-4 Z M153 187 h28 v1 h-28 Z M76 188 h25 v1 h-25 Z M116 188 h5 v1 h-5 Z M137 188 h4 v1 h-4 Z M156 188 h26 v1 h-26 Z M78 189 h20 v1 h-20 Z M116 189 h5 v1 h-5 Z M137 189 h4 v1 h-4 Z M160 189 h20 v1 h-20 Z M86 190 h3 v1 h-3 Z M117 190 h4 v1 h-4 Z M137 190 h4 v1 h-4 Z M169 190 h3 v1 h-3 Z M117 191 h4 v1 h-4 Z M136 191 h5 v1 h-5 Z M117 192 h4 v1 h-4 Z M136 192 h5 v1 h-5 Z M117 193 h4 v1 h-4 Z M136 193 h5 v1 h-5 Z M117 194 h5 v1 h-5 Z M136 194 h5 v1 h-5 Z M117 195 h5 v1 h-5 Z M136 195 h4 v1 h-4 Z M117 196 h5 v1 h-5 Z M135 196 h5 v1 h-5 Z M118 197 h5 v1 h-5 Z M135 197 h5 v1 h-5 Z M118 198 h5 v1 h-5 Z M134 198 h6 v1 h-6 Z M118 199 h5 v1 h-5 Z M134 199 h5 v1 h-5 Z M118 200 h6 v1 h-6 Z M134 200 h5 v1 h-5 Z M119 201 h6 v1 h-6 Z M133 201 h6 v1 h-6 Z M119 202 h6 v1 h-6 Z M132 202 h6 v1 h-6 Z M119 203 h7 v1 h-7 Z M132 203 h6 v1 h-6 Z M120 204 h6 v1 h-6 Z M131 204 h7 v1 h-7 Z M120 205 h7 v1 h-7 Z M131 205 h6 v1 h-6 Z M121 206 h7 v1 h-7 Z M130 206 h7 v1 h-7 Z M121 207 h15 v1 h-15 Z M122 208 h14 v1 h-14 Z M122 209 h13 v1 h-13 Z M123 210 h12 v1 h-12 Z M123 211 h11 v1 h-11 Z M124 212 h10 v1 h-10 Z M124 213 h9 v1 h-9 Z M125 214 h7 v1 h-7 Z M126 215 h6 v1 h-6 Z M126 216 h5 v1 h-5 Z M127 217 h3 v1 h-3 Z M128 218 h2 v1 h-2 Z " />
+</svg> FLO Blockchain</h4>
+                    <span class="blockchain-badge secondary">Supported</span>
+                  </div>
+                  <div class="detail-row">
+                    <label><i class="fas fa-map-marker-alt"></i> Address</label>
+                    <div class="value-container">
+                      <code>${result.FLO.address}</code>
+                      <button class="btn-icon" onclick="copyToClipboard('${result.FLO.address}')">
+                        <i class="fas fa-copy"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="blockchain-section">
+                  <div class="blockchain-header">
+                    <h4><i class="fab fa-bitcoin"></i> Bitcoin</h4>
+                    <span class="blockchain-badge secondary">Supported</span>
+                  </div>
+                  <div class="detail-row">
+                    <label><i class="fas fa-map-marker-alt"></i> Address</label>
+                    <div class="value-container">
+                      <code>${result.BTC.address}</code>
+                      <button class="btn-icon" onclick="copyToClipboard('${result.BTC.address}')">
+                        <i class="fas fa-copy"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            `;
+            resultDiv.innerHTML = html;
+            showNotification("Address translated", "success");
+          }
+
+          // Restore button state
+          btn.disabled = false;
+          btnText.style.display = "inline-block";
+          btnLoading.style.display = "none";
+        }, 100);
+      }
+
       // Recover Wallet functionality
       async function recoverWallet() {
         const privateKey = document
@@ -626,7 +767,7 @@
           output.innerHTML = `
             <div class="wallet-generated-success">
               <div class="success-icon">
-                <i class="fas fa-check"></i>
+                <i class="fas fa-check-circle"></i>
               </div>
               <div class="success-message">
                 <h3>Addresses Recovered Successfully!</h3>
@@ -636,7 +777,7 @@
             
             <div class="blockchain-section">
               <div class="blockchain-header">
-                <h4><i class="fas fa-snowflake"></i> Fetch.ai Blockchain</h4>
+                <h4><img src="https://raw.githubusercontent.com/cosmos/chain-registry/master/fetchhub/images/fet.svg" class="dynamic-logo" style="width:1.2em; height:1.2em; vertical-align:middle; margin-right:0.3em; margin-bottom: 0.1em;" alt="FET"> Fetch.ai Blockchain</h4>
                 <span class="blockchain-badge primary">Primary</span>
               </div>
               
@@ -667,7 +808,9 @@
             
             <div class="blockchain-section">
               <div class="blockchain-header">
-                <h4><i class="fas fa-coins"></i> FLO Blockchain</h4>
+                <h4><svg viewBox="0 0 256 256" style="width:1.2em; height:1.2em; vertical-align:middle; margin-right:0.3em; margin-bottom:0.1em; fill:currentColor;" fill-rule="evenodd" xmlns="http://www.w3.org/2000/svg">
+  <path d="M128,0 A128,128 0 1,0 256,128 A128,128 0 0,0 128,0 Z M128 38 h1 v1 h-1 Z M127 39 h3 v1 h-3 Z M127 40 h4 v1 h-4 Z M126 41 h5 v1 h-5 Z M125 42 h7 v1 h-7 Z M124 43 h9 v1 h-9 Z M124 44 h10 v1 h-10 Z M123 45 h11 v1 h-11 Z M122 46 h13 v1 h-13 Z M122 47 h14 v1 h-14 Z M121 48 h15 v1 h-15 Z M120 49 h17 v1 h-17 Z M120 50 h18 v1 h-18 Z M119 51 h19 v1 h-19 Z M119 52 h20 v1 h-20 Z M118 53 h22 v1 h-22 Z M117 54 h23 v1 h-23 Z M117 55 h24 v1 h-24 Z M116 56 h25 v1 h-25 Z M116 57 h12 v1 h-12 Z M130 57 h12 v1 h-12 Z M115 58 h12 v1 h-12 Z M131 58 h11 v1 h-11 Z M115 59 h11 v1 h-11 Z M131 59 h12 v1 h-12 Z M114 60 h12 v1 h-12 Z M132 60 h11 v1 h-11 Z M114 61 h11 v1 h-11 Z M133 61 h11 v1 h-11 Z M113 62 h11 v1 h-11 Z M133 62 h11 v1 h-11 Z M113 63 h10 v1 h-10 Z M134 63 h11 v1 h-11 Z M112 64 h11 v1 h-11 Z M135 64 h10 v1 h-10 Z M112 65 h10 v1 h-10 Z M135 65 h11 v1 h-11 Z M111 66 h10 v1 h-10 Z M136 66 h10 v1 h-10 Z M111 67 h10 v1 h-10 Z M137 67 h10 v1 h-10 Z M110 68 h10 v1 h-10 Z M137 68 h10 v1 h-10 Z M110 69 h10 v1 h-10 Z M138 69 h9 v1 h-9 Z M110 70 h9 v1 h-9 Z M138 70 h10 v1 h-10 Z M109 71 h10 v1 h-10 Z M139 71 h9 v1 h-9 Z M109 72 h9 v1 h-9 Z M139 72 h9 v1 h-9 Z M109 73 h9 v1 h-9 Z M140 73 h9 v1 h-9 Z M108 74 h9 v1 h-9 Z M140 74 h9 v1 h-9 Z M108 75 h9 v1 h-9 Z M141 75 h9 v1 h-9 Z M108 76 h8 v1 h-8 Z M141 76 h9 v1 h-9 Z M107 77 h9 v1 h-9 Z M142 77 h8 v1 h-8 Z M107 78 h8 v1 h-8 Z M142 78 h8 v1 h-8 Z M107 79 h8 v1 h-8 Z M142 79 h9 v1 h-9 Z M107 80 h8 v1 h-8 Z M143 80 h8 v1 h-8 Z M106 81 h8 v1 h-8 Z M143 81 h8 v1 h-8 Z M106 82 h8 v1 h-8 Z M144 82 h7 v1 h-7 Z M106 83 h8 v1 h-8 Z M144 83 h8 v1 h-8 Z M106 84 h7 v1 h-7 Z M144 84 h8 v1 h-8 Z M105 85 h8 v1 h-8 Z M144 85 h8 v1 h-8 Z M105 86 h8 v1 h-8 Z M145 86 h7 v1 h-7 Z M105 87 h8 v1 h-8 Z M145 87 h7 v1 h-7 Z M105 88 h7 v1 h-7 Z M145 88 h8 v1 h-8 Z M105 89 h7 v1 h-7 Z M145 89 h8 v1 h-8 Z M105 90 h7 v1 h-7 Z M146 90 h7 v1 h-7 Z M104 91 h8 v1 h-8 Z M146 91 h7 v1 h-7 Z M104 92 h8 v1 h-8 Z M146 92 h7 v1 h-7 Z M104 93 h7 v1 h-7 Z M146 93 h7 v1 h-7 Z M104 94 h7 v1 h-7 Z M146 94 h7 v1 h-7 Z M104 95 h7 v1 h-7 Z M146 95 h7 v1 h-7 Z M104 96 h7 v1 h-7 Z M146 96 h7 v1 h-7 Z M104 97 h7 v1 h-7 Z M147 97 h7 v1 h-7 Z M104 98 h7 v1 h-7 Z M147 98 h7 v1 h-7 Z M104 99 h7 v1 h-7 Z M147 99 h7 v1 h-7 Z M104 100 h7 v1 h-7 Z M147 100 h7 v1 h-7 Z M104 101 h7 v1 h-7 Z M147 101 h7 v1 h-7 Z M104 102 h7 v1 h-7 Z M147 102 h7 v1 h-7 Z M104 103 h7 v1 h-7 Z M147 103 h7 v1 h-7 Z M104 104 h7 v1 h-7 Z M147 104 h7 v1 h-7 Z M104 105 h7 v1 h-7 Z M147 105 h7 v1 h-7 Z M104 106 h7 v1 h-7 Z M146 106 h7 v1 h-7 Z M104 107 h7 v1 h-7 Z M146 107 h7 v1 h-7 Z M104 108 h7 v1 h-7 Z M146 108 h7 v1 h-7 Z M104 109 h7 v1 h-7 Z M146 109 h7 v1 h-7 Z M104 110 h8 v1 h-8 Z M146 110 h7 v1 h-7 Z M104 111 h8 v1 h-8 Z M146 111 h7 v1 h-7 Z M105 112 h7 v1 h-7 Z M146 112 h7 v1 h-7 Z M105 113 h7 v1 h-7 Z M145 113 h8 v1 h-8 Z M105 114 h7 v1 h-7 Z M145 114 h8 v1 h-8 Z M105 115 h7 v1 h-7 Z M145 115 h7 v1 h-7 Z M54 116 h8 v1 h-8 Z M105 116 h8 v1 h-8 Z M145 116 h7 v1 h-7 Z M196 116 h8 v1 h-8 Z M43 117 h28 v1 h-28 Z M105 117 h8 v1 h-8 Z M145 117 h7 v1 h-7 Z M186 117 h29 v1 h-29 Z M40 118 h36 v1 h-36 Z M106 118 h7 v1 h-7 Z M144 118 h8 v1 h-8 Z M181 118 h37 v1 h-37 Z M40 119 h40 v1 h-40 Z M106 119 h8 v1 h-8 Z M144 119 h8 v1 h-8 Z M178 119 h39 v1 h-39 Z M41 120 h42 v1 h-42 Z M106 120 h8 v1 h-8 Z M144 120 h7 v1 h-7 Z M175 120 h42 v1 h-42 Z M41 121 h45 v1 h-45 Z M106 121 h8 v1 h-8 Z M143 121 h8 v1 h-8 Z M172 121 h44 v1 h-44 Z M42 122 h46 v1 h-46 Z M107 122 h8 v1 h-8 Z M143 122 h8 v1 h-8 Z M169 122 h47 v1 h-47 Z M42 123 h48 v1 h-48 Z M107 123 h8 v1 h-8 Z M143 123 h8 v1 h-8 Z M167 123 h48 v1 h-48 Z M43 124 h49 v1 h-49 Z M107 124 h8 v1 h-8 Z M142 124 h8 v1 h-8 Z M165 124 h50 v1 h-50 Z M43 125 h51 v1 h-51 Z M107 125 h9 v1 h-9 Z M142 125 h8 v1 h-8 Z M163 125 h51 v1 h-51 Z M44 126 h15 v1 h-15 Z M71 126 h25 v1 h-25 Z M108 126 h8 v1 h-8 Z M141 126 h9 v1 h-9 Z M162 126 h25 v1 h-25 Z M198 126 h16 v1 h-16 Z M44 127 h11 v1 h-11 Z M75 127 h22 v1 h-22 Z M108 127 h9 v1 h-9 Z M141 127 h9 v1 h-9 Z M160 127 h22 v1 h-22 Z M202 127 h11 v1 h-11 Z M45 128 h10 v1 h-10 Z M79 128 h20 v1 h-20 Z M108 128 h9 v1 h-9 Z M141 128 h8 v1 h-8 Z M159 128 h20 v1 h-20 Z M202 128 h11 v1 h-11 Z M45 129 h10 v1 h-10 Z M82 129 h18 v1 h-18 Z M109 129 h8 v1 h-8 Z M140 129 h9 v1 h-9 Z M157 129 h19 v1 h-19 Z M202 129 h10 v1 h-10 Z M46 130 h10 v1 h-10 Z M84 130 h18 v1 h-18 Z M109 130 h9 v1 h-9 Z M140 130 h9 v1 h-9 Z M156 130 h17 v1 h-17 Z M202 130 h10 v1 h-10 Z M46 131 h10 v1 h-10 Z M86 131 h17 v1 h-17 Z M109 131 h9 v1 h-9 Z M139 131 h9 v1 h-9 Z M155 131 h16 v1 h-16 Z M202 131 h9 v1 h-9 Z M47 132 h9 v1 h-9 Z M88 132 h16 v1 h-16 Z M110 132 h9 v1 h-9 Z M139 132 h9 v1 h-9 Z M153 132 h16 v1 h-16 Z M201 132 h10 v1 h-10 Z M47 133 h9 v1 h-9 Z M90 133 h15 v1 h-15 Z M110 133 h9 v1 h-9 Z M138 133 h9 v1 h-9 Z M152 133 h15 v1 h-15 Z M201 133 h9 v1 h-9 Z M48 134 h9 v1 h-9 Z M92 134 h14 v1 h-14 Z M110 134 h10 v1 h-10 Z M137 134 h10 v1 h-10 Z M151 134 h15 v1 h-15 Z M201 134 h8 v1 h-8 Z M49 135 h8 v1 h-8 Z M94 135 h13 v1 h-13 Z M111 135 h10 v1 h-10 Z M137 135 h10 v1 h-10 Z M150 135 h14 v1 h-14 Z M200 135 h9 v1 h-9 Z M49 136 h9 v1 h-9 Z M95 136 h13 v1 h-13 Z M111 136 h10 v1 h-10 Z M136 136 h10 v1 h-10 Z M149 136 h13 v1 h-13 Z M200 136 h8 v1 h-8 Z M50 137 h8 v1 h-8 Z M97 137 h13 v1 h-13 Z M112 137 h10 v1 h-10 Z M136 137 h10 v1 h-10 Z M148 137 h13 v1 h-13 Z M199 137 h8 v1 h-8 Z M51 138 h7 v1 h-7 Z M98 138 h12 v1 h-12 Z M112 138 h10 v1 h-10 Z M135 138 h10 v1 h-10 Z M147 138 h12 v1 h-12 Z M199 138 h8 v1 h-8 Z M52 139 h7 v1 h-7 Z M100 139 h11 v1 h-11 Z M112 139 h11 v1 h-11 Z M134 139 h11 v1 h-11 Z M146 139 h12 v1 h-12 Z M199 139 h7 v1 h-7 Z M52 140 h7 v1 h-7 Z M101 140 h23 v1 h-23 Z M134 140 h22 v1 h-22 Z M198 140 h7 v1 h-7 Z M53 141 h7 v1 h-7 Z M102 141 h22 v1 h-22 Z M133 141 h22 v1 h-22 Z M197 141 h7 v1 h-7 Z M54 142 h7 v1 h-7 Z M104 142 h21 v1 h-21 Z M133 142 h21 v1 h-21 Z M197 142 h7 v1 h-7 Z M55 143 h6 v1 h-6 Z M105 143 h21 v1 h-21 Z M132 143 h21 v1 h-21 Z M196 143 h7 v1 h-7 Z M55 144 h7 v1 h-7 Z M106 144 h20 v1 h-20 Z M131 144 h20 v1 h-20 Z M196 144 h6 v1 h-6 Z M56 145 h7 v1 h-7 Z M107 145 h20 v1 h-20 Z M130 145 h20 v1 h-20 Z M195 145 h6 v1 h-6 Z M57 146 h6 v1 h-6 Z M109 146 h19 v1 h-19 Z M130 146 h19 v1 h-19 Z M194 146 h6 v1 h-6 Z M58 147 h6 v1 h-6 Z M110 147 h38 v1 h-38 Z M193 147 h6 v1 h-6 Z M59 148 h6 v1 h-6 Z M111 148 h36 v1 h-36 Z M193 148 h5 v1 h-5 Z M60 149 h6 v1 h-6 Z M112 149 h33 v1 h-33 Z M192 149 h5 v1 h-5 Z M61 150 h6 v1 h-6 Z M113 150 h31 v1 h-31 Z M191 150 h5 v1 h-5 Z M62 151 h6 v1 h-6 Z M114 151 h29 v1 h-29 Z M190 151 h5 v1 h-5 Z M63 152 h6 v1 h-6 Z M115 152 h27 v1 h-27 Z M189 152 h5 v1 h-5 Z M65 153 h5 v1 h-5 Z M116 153 h25 v1 h-25 Z M188 153 h5 v1 h-5 Z M66 154 h5 v1 h-5 Z M117 154 h23 v1 h-23 Z M187 154 h5 v1 h-5 Z M67 155 h5 v1 h-5 Z M118 155 h21 v1 h-21 Z M186 155 h4 v1 h-4 Z M69 156 h4 v1 h-4 Z M119 156 h19 v1 h-19 Z M185 156 h4 v1 h-4 Z M70 157 h4 v1 h-4 Z M120 157 h17 v1 h-17 Z M183 157 h4 v1 h-4 Z M72 158 h3 v1 h-3 Z M121 158 h15 v1 h-15 Z M182 158 h4 v1 h-4 Z M73 159 h4 v1 h-4 Z M122 159 h13 v1 h-13 Z M181 159 h3 v1 h-3 Z M75 160 h3 v1 h-3 Z M117 160 h24 v1 h-24 Z M179 160 h3 v1 h-3 Z M77 161 h3 v1 h-3 Z M110 161 h38 v1 h-38 Z M178 161 h2 v1 h-2 Z M79 162 h2 v1 h-2 Z M106 162 h46 v1 h-46 Z M176 162 h2 v1 h-2 Z M82 163 h1 v1 h-1 Z M103 163 h17 v1 h-17 Z M123 163 h11 v1 h-11 Z M137 163 h18 v1 h-18 Z M175 163 h1 v1 h-1 Z M100 164 h16 v1 h-16 Z M123 164 h12 v1 h-12 Z M141 164 h16 v1 h-16 Z M98 165 h15 v1 h-15 Z M122 165 h13 v1 h-13 Z M145 165 h14 v1 h-14 Z M96 166 h13 v1 h-13 Z M122 166 h14 v1 h-14 Z M148 166 h13 v1 h-13 Z M94 167 h13 v1 h-13 Z M121 167 h15 v1 h-15 Z M151 167 h12 v1 h-12 Z M93 168 h11 v1 h-11 Z M121 168 h7 v1 h-7 Z M130 168 h7 v1 h-7 Z M153 168 h12 v1 h-12 Z M91 169 h11 v1 h-11 Z M120 169 h7 v1 h-7 Z M130 169 h7 v1 h-7 Z M156 169 h10 v1 h-10 Z M90 170 h10 v1 h-10 Z M120 170 h6 v1 h-6 Z M131 170 h7 v1 h-7 Z M158 170 h9 v1 h-9 Z M89 171 h9 v1 h-9 Z M120 171 h6 v1 h-6 Z M132 171 h6 v1 h-6 Z M160 171 h9 v1 h-9 Z M88 172 h8 v1 h-8 Z M119 172 h6 v1 h-6 Z M132 172 h6 v1 h-6 Z M161 172 h9 v1 h-9 Z M86 173 h8 v1 h-8 Z M119 173 h6 v1 h-6 Z M133 173 h6 v1 h-6 Z M163 173 h8 v1 h-8 Z M85 174 h8 v1 h-8 Z M118 174 h6 v1 h-6 Z M133 174 h6 v1 h-6 Z M164 174 h8 v1 h-8 Z M85 175 h7 v1 h-7 Z M118 175 h6 v1 h-6 Z M134 175 h5 v1 h-5 Z M166 175 h7 v1 h-7 Z M84 176 h7 v1 h-7 Z M118 176 h5 v1 h-5 Z M134 176 h6 v1 h-6 Z M167 176 h7 v1 h-7 Z M83 177 h7 v1 h-7 Z M118 177 h5 v1 h-5 Z M135 177 h5 v1 h-5 Z M168 177 h7 v1 h-7 Z M82 178 h7 v1 h-7 Z M117 178 h5 v1 h-5 Z M135 178 h5 v1 h-5 Z M169 178 h7 v1 h-7 Z M81 179 h7 v1 h-7 Z M117 179 h5 v1 h-5 Z M135 179 h5 v1 h-5 Z M170 179 h6 v1 h-6 Z M80 180 h7 v1 h-7 Z M117 180 h5 v1 h-5 Z M136 180 h4 v1 h-4 Z M170 180 h7 v1 h-7 Z M80 181 h6 v1 h-6 Z M117 181 h5 v1 h-5 Z M136 181 h5 v1 h-5 Z M171 181 h7 v1 h-7 Z M79 182 h7 v1 h-7 Z M117 182 h4 v1 h-4 Z M136 182 h5 v1 h-5 Z M172 182 h6 v1 h-6 Z M79 183 h6 v1 h-6 Z M117 183 h4 v1 h-4 Z M136 183 h5 v1 h-5 Z M172 183 h7 v1 h-7 Z M78 184 h7 v1 h-7 Z M109 184 h1 v1 h-1 Z M117 184 h4 v1 h-4 Z M136 184 h5 v1 h-5 Z M148 184 h1 v1 h-1 Z M172 184 h8 v1 h-8 Z M77 185 h10 v1 h-10 Z M106 185 h2 v1 h-2 Z M116 185 h5 v1 h-5 Z M137 185 h4 v1 h-4 Z M149 185 h3 v1 h-3 Z M171 185 h9 v1 h-9 Z M77 186 h13 v1 h-13 Z M102 186 h4 v1 h-4 Z M116 186 h5 v1 h-5 Z M137 186 h4 v1 h-4 Z M151 186 h4 v1 h-4 Z M168 186 h13 v1 h-13 Z M76 187 h28 v1 h-28 Z M116 187 h5 v1 h-5 Z M137 187 h4 v1 h-4 Z M153 187 h28 v1 h-28 Z M76 188 h25 v1 h-25 Z M116 188 h5 v1 h-5 Z M137 188 h4 v1 h-4 Z M156 188 h26 v1 h-26 Z M78 189 h20 v1 h-20 Z M116 189 h5 v1 h-5 Z M137 189 h4 v1 h-4 Z M160 189 h20 v1 h-20 Z M86 190 h3 v1 h-3 Z M117 190 h4 v1 h-4 Z M137 190 h4 v1 h-4 Z M169 190 h3 v1 h-3 Z M117 191 h4 v1 h-4 Z M136 191 h5 v1 h-5 Z M117 192 h4 v1 h-4 Z M136 192 h5 v1 h-5 Z M117 193 h4 v1 h-4 Z M136 193 h5 v1 h-5 Z M117 194 h5 v1 h-5 Z M136 194 h5 v1 h-5 Z M117 195 h5 v1 h-5 Z M136 195 h4 v1 h-4 Z M117 196 h5 v1 h-5 Z M135 196 h5 v1 h-5 Z M118 197 h5 v1 h-5 Z M135 197 h5 v1 h-5 Z M118 198 h5 v1 h-5 Z M134 198 h6 v1 h-6 Z M118 199 h5 v1 h-5 Z M134 199 h5 v1 h-5 Z M118 200 h6 v1 h-6 Z M134 200 h5 v1 h-5 Z M119 201 h6 v1 h-6 Z M133 201 h6 v1 h-6 Z M119 202 h6 v1 h-6 Z M132 202 h6 v1 h-6 Z M119 203 h7 v1 h-7 Z M132 203 h6 v1 h-6 Z M120 204 h6 v1 h-6 Z M131 204 h7 v1 h-7 Z M120 205 h7 v1 h-7 Z M131 205 h6 v1 h-6 Z M121 206 h7 v1 h-7 Z M130 206 h7 v1 h-7 Z M121 207 h15 v1 h-15 Z M122 208 h14 v1 h-14 Z M122 209 h13 v1 h-13 Z M123 210 h12 v1 h-12 Z M123 211 h11 v1 h-11 Z M124 212 h10 v1 h-10 Z M124 213 h9 v1 h-9 Z M125 214 h7 v1 h-7 Z M126 215 h6 v1 h-6 Z M126 216 h5 v1 h-5 Z M127 217 h3 v1 h-3 Z M128 218 h2 v1 h-2 Z " />
+</svg> FLO Blockchain</h4>
                 <span class="blockchain-badge secondary">Secondary</span>
               </div>
               
@@ -2165,3 +2308,5 @@
     </script>
   </body>
 </html>
+
+
